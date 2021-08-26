@@ -1,0 +1,59 @@
+<div class="container">
+  <h1>ReactiveForms</h1>
+  <div>formName: {{ formName.value | json }}</div>
+  <hr />
+
+  <h4>Single FormControl</h4>
+  <form>
+    <label>Simple FormControl</label>
+    <input type="text" [formControl]="formName" class="form-control" />
+  </form>
+  <hr />
+  <h4>Simple FormGroup</h4>
+  <div>{{ personalDetails.value | json }}</div>
+  <form [formGroup]="personalDetails" (ngSubmit)="onSubmit()">
+    <input type="text" class="form-control" formControlName="firstName" />
+    <input type="text" class="form-control" formControlName="lastName" />
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+  <hr />
+
+  <h4>Nested FormGroup</h4>
+  <div>{{ personalInfo.value | json }}</div>
+  <form [formGroup]="personalInfo">
+    <label>Name</label>
+    <input type="text" class="form-control" formControlName="name" />
+    <div formGroupName="address">
+      <label>Address</label>
+      <input type="text" class="form-control" formControlName="street" />
+      <input type="text" class="form-control" formControlName="city" />
+      <input type="text" class="form-control" formControlName="state" />
+      <input type="text" class="form-control" formControlName="country" />
+    </div>
+  </form>
+  <hr />
+
+  <h4>FormArray</h4>
+  <div>{{ friendsList.value | json }}</div>
+  <ng-container
+    *ngFor="let friend of friends.controls; let i = index"
+    [formGroup]="friendsList"
+  >
+    <input type="text" class="form-control" [value]="friend.value" />
+  </ng-container>
+  <button class="btn btn-primary" (click)="addFriend()">Add Friend</button>
+  <hr />
+
+  <h4>FormBuilder service to create a FormGroup instance</h4>
+  <form [formGroup]="profile">
+    <div>status: {{ profile.status }}</div>
+    <div>{{ profile.value | json }}</div>
+    <input type="text" class="form-control" formControlName="name" />
+    <input type="text" class="form-control" formControlName="experience" />
+    <div formGroupName="education">
+      <input type="text" class="form-control" formControlName="undergrad" />
+      <input type="text" class="form-control" formControlName="grad" />
+    </div>
+    <button class="btn btn-primary" [disabled]="profile.invalid">SUbmit</button>
+  </form>
+</div>
